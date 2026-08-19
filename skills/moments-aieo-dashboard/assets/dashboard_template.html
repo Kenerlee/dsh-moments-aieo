@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{BRAND_NAME}} AIEO Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1923; --card: #1a2634; --border: #2a3a4a;
+    --text: #e0e6ed; --muted: #8899aa; --accent: #4fc3f7;
+    --green: #66bb6a; --red: #ef5350; --yellow: #ffd54f;
+    --orange: #ff9800; --purple: #ab47bc; --cyan: #26c6da;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; background:var(--bg); color:var(--text); }
+  .header { padding:24px 32px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+  .header h1 { font-size:22px; font-weight:600; }
+  .header h1 span { color:var(--accent); }
+  .header .meta { font-size:13px; color:var(--muted); }
+  .health-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:20px; font-weight:600; font-size:15px; }
+  .health-good { background:linear-gradient(135deg,#1b5e20,#2e7d32); }
+  .health-warn { background:linear-gradient(135deg,#e65100,#f57c00); }
+  .health-bad { background:linear-gradient(135deg,#b71c1c,#d32f2f); }
+  .health-badge .score { font-size:24px; }
+  .tabs { display:flex; gap:4px; padding:12px 32px 0; border-bottom:1px solid var(--border); overflow-x:auto; }
+  .tab { padding:10px 20px; cursor:pointer; border-radius:8px 8px 0 0; font-size:14px; font-weight:500; color:var(--muted); border:1px solid transparent; border-bottom:none; transition:all .2s; white-space:nowrap; }
+  .tab:hover { color:var(--text); background:rgba(79,195,247,.08); }
+  .tab.active { color:var(--accent); background:var(--card); border-color:var(--border); }
+  .panel { display:none; padding:24px 32px; }
+  .panel.active { display:block; }
+  .grid { display:grid; gap:20px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .g4 { grid-template-columns: repeat(4,1fr); }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .card h3 { font-size:14px; color:var(--muted); margin-bottom:12px; font-weight:500; }
+  .card .big { font-size:32px; font-weight:700; }
+  .card .change { font-size:13px; margin-left:8px; }
+  .up { color:var(--green); } .down { color:var(--red); } .flat { color:var(--yellow); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; padding:10px 12px; color:var(--muted); font-weight:500; border-bottom:1px solid var(--border); font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  td { padding:10px 12px; border-bottom:1px solid rgba(42,58,74,.5); }
+  tr:hover td { background:rgba(79,195,247,.04); }
+  .badge { display:inline-block; padding:2px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+  .badge-green { background:rgba(102,187,106,.15); color:var(--green); }
+  .badge-red { background:rgba(239,83,80,.15); color:var(--red); }
+  .badge-yellow { background:rgba(255,213,79,.15); color:var(--yellow); }
+  .badge-blue { background:rgba(79,195,247,.15); color:var(--accent); }
+  .badge-purple { background:rgba(171,71,188,.15); color:var(--purple); }
+  .chart-container { position:relative; height:300px; }
+  .chart-container-sm { position:relative; height:220px; }
+  .platform-bar { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .platform-bar .name { width:80px; font-size:13px; text-align:right; color:var(--muted); }
+  .platform-bar .bar-bg { flex:1; height:24px; background:rgba(255,255,255,.05); border-radius:4px; overflow:hidden; }
+  .platform-bar .bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:600; transition:width .6s ease; }
+  .platform-bar .bar-mention { background:linear-gradient(90deg,rgba(79,195,247,.3),rgba(79,195,247,.6)); }
+  .platform-bar .bar-first { background:linear-gradient(90deg,rgba(102,187,106,.4),rgba(102,187,106,.7)); }
+  .insight-box { background:rgba(79,195,247,.06); border-left:3px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin-top:12px; font-size:13px; line-height:1.6; }
+  .insight-box.warning { border-color:var(--yellow); background:rgba(255,213,79,.06); }
+  .insight-box.danger { border-color:var(--red); background:rgba(239,83,80,.06); }
+  .legend { display:flex; gap:16px; margin-bottom:12px; font-size:12px; }
+  .legend span { display:flex; align-items:center; gap:4px; }
+  .legend .dot { width:10px; height:10px; border-radius:50%; }
+  .timeline-item { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid rgba(42,58,74,.5); }
+  .timeline-date { font-size:12px; color:var(--muted); width:60px; flex-shrink:0; }
+  .timeline-content { flex:1; font-size:13px; line-height:1.5; }
+  .empty-state { text-align:center; padding:60px 20px; color:var(--muted); }
+  .empty-state h2 { font-size:18px; margin-bottom:8px; color:var(--text); }
+  @media(max-width:900px) { .g2,.g3,.g4 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<!--
+  ╔═══════════════════════════════════════════════════════════════════════════╗
+  ║  AIEO Dashboard Template — Expected DATA shape (injected at {{DASHBOARD_DATA}}) ║
+  ╠═══════════════════════════════════════════════════════════════════════════╣
+  ║  metadata: { brand, report_count, date_range, latest_date, first_date,     ║
+  ║              platforms: [str], question_count }                            ║
+  ║  timeseries: { dates:[str], ai_mention_rate:[num], ai_first_recommend_rate,║
+  ║                positioning_consistency_rate, sentiment_positive_rate,      ║
+  ║                aieo_health_score }                                         ║
+  ║  latest_metrics / first_metrics: same keys as timeseries (single value)    ║
+  ║  latest_platform_performance: [{name, mention_rate, first_recommend_rate, tested}] ║
+  ║  latest_platform_results: { platforms:[str], questions:[{text, type, results:{platform: 'first_recommend'|'mentioned'|'compared'|'not_mentioned'}}] } ║
+  ║  question_type_stats: { brand|category|comparison|scenario|longtail: {total, mentioned, first_rec} } ║
+  ║  question_type_timeseries: { brand:[..], category:[..], ..., dates:[..] } ║
+  ║  latest_competitors: [{name, mention_rate, change?, note?, mention_count?}]║
+  ║  competitor_timeseries: { name: {dates:[str], rates:[num]} }              ║
+  ║  interceptions: [{question, platform, type}]                              ║
+  ║  latest_recommendations: {highlights:[str], issues:[str], actions:[str]}  ║
+  ╚═══════════════════════════════════════════════════════════════════════════╝
+-->
+<div class="header">
+  <div>
+    <h1><span id="brandTitle">{{BRAND_NAME}}</span> AIEO Monitoring Dashboard
+      <span id="latestDateBadge" style="display:inline-block; margin-left:14px; padding:4px 12px; background:rgba(79,195,247,.15); border:1px solid rgba(79,195,247,.4); border-radius:14px; font-size:13px; font-weight:500; color:#4fc3f7; vertical-align:middle;">本期监控: <span id="latestDate">--</span></span>
+    </h1>
+    <div class="meta" id="headerMeta">Loading...</div>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+    <div class="health-badge health-good" id="healthBadge">
+      AIEO 健康度 <span class="score" id="healthScore">--</span>/100
+    </div>
+    <div style="font-size:11px; color:#8899aa;">📅 报告生成: <span id="generatedDate">--</span></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('q')">能力1: 问题库监控</div>
+  <div class="tab" onclick="switchTab('sov')">能力2: SoV / 引用监控</div>
+  <div class="tab" onclick="switchTab('content')">能力3: 内容效果归因</div>
+  <div class="tab" onclick="switchTab('comp')">能力4: 竞品变化追踪</div>
+</div>
+
+<!-- ===== 能力1: 问题库监控 ===== -->
+<div id="panel-q" class="panel active">
+  <div class="grid g4" style="margin-bottom:20px;" id="questionTypeCards"></div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>问题库热力图 — 最新监控</h3>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--green);"></span>首推</span>
+        <span><span class="dot" style="background:var(--accent);"></span>提及</span>
+        <span><span class="dot" style="background:var(--yellow);"></span>对比中提及</span>
+        <span><span class="dot" style="background:var(--red);opacity:.5;"></span>未提及</span>
+      </div>
+      <div style="overflow-x:auto;" id="heatmapTable"></div>
+    </div>
+    <div class="card">
+      <h3>问题类型提及率趋势</h3>
+      <div class="chart-container"><canvas id="chartQuestionTrend"></canvas></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px;">
+    <h3>风险词 & 异常监控</h3>
+    <div id="riskSection"></div>
+  </div>
+</div>
+
+<!-- ===== 能力2: SoV / 引用监控 ===== -->
+<div id="panel-sov" class="panel">
+  <div class="grid g4" style="margin-bottom:20px;" id="sovCards"></div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>各平台提及率 & 首推率</h3>
+      <div id="platformBars"></div>
+      <div class="legend" style="margin-top:12px;">
+        <span><span class="dot" style="background:var(--accent);"></span>提及率</span>
+        <span><span class="dot" style="background:var(--green);"></span>首推率</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>AI提及率 & 首推率 趋势</h3>
+      <div class="chart-container"><canvas id="chartSoVTrend"></canvas></div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:20px;">
+    <div class="card">
+      <h3>截流分析 — 哪些平台/问题未被提及</h3>
+      <div id="interceptionTable"></div>
+    </div>
+    <div class="card">
+      <h3>平台覆盖权重</h3>
+      <div class="chart-container-sm"><canvas id="chartPlatformWeight"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 能力3: 内容效果归因 ===== -->
+<div id="panel-content" class="panel">
+  <div class="grid g3" style="margin-bottom:20px;" id="contentCards"></div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>各问题类型引用效果</h3>
+      <div id="contentEffectTable"></div>
+    </div>
+    <div class="card">
+      <h3>定位一致性评估</h3>
+      <div class="chart-container"><canvas id="chartPositioning"></canvas></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px;">
+    <h3>关键事件时间线</h3>
+    <div id="contentTimeline"></div>
+  </div>
+</div>
+
+<!-- ===== 能力4: 竞品变化追踪 ===== -->
+<div id="panel-comp" class="panel">
+  <div class="grid g2" style="margin-bottom:20px;">
+    <div class="card">
+      <h3>竞品提及率趋势</h3>
+      <div class="chart-container"><canvas id="chartCompTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>竞品对比雷达图</h3>
+      <div class="chart-container"><canvas id="chartCompRadar"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>竞品动态监控表</h3>
+    <div id="competitorTable"></div>
+  </div>
+</div>
+
+<script>
+// ========== DATA INJECTION POINT ==========
+const DATA = {{DASHBOARD_DATA}};
+// ==========================================
+
+const BRAND = DATA.metadata?.brand || 'Brand';
+const TYPE_LABELS = { brand: '品牌词 (BR)', category: '品类词 (CR)', comparison: '对比词 (CP)', scenario: '场景词 (SC)', longtail: '长尾问题' };
+const TYPE_COLORS = { brand: '#66bb6a', category: '#4fc3f7', comparison: '#ffd54f', scenario: '#ab47bc', longtail: '#26c6da' };
+const RESULT_DISPLAY = { first_recommend: { text: '首推', cls: 'badge-green' }, mentioned: { text: '提及', cls: 'badge-blue' }, compared: { text: '对比', cls: 'badge-yellow' }, not_mentioned: { text: '--', cls: 'badge-red' } };
+const PLATFORM_COLORS = ['#66bb6a','#4fc3f7','#ab47bc','#ffd54f','#ef5350','#ff9800','#26c6da','#ec407a'];
+
+Chart.defaults.color = '#8899aa';
+Chart.defaults.borderColor = 'rgba(42,58,74,0.5)';
+Chart.defaults.font.family = '-apple-system, sans-serif';
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function pct(val) { return val != null ? val + '%' : 'N/A'; }
+function changeStr(latest, first) {
+  if (latest == null || first == null) return '';
+  const diff = Math.round((latest - first) * 10) / 10;
+  if (diff > 0) return `<span class="change up">+${diff}% vs 首期</span>`;
+  if (diff < 0) return `<span class="change down">${diff}% vs 首期</span>`;
+  return `<span class="change flat">→ 持平</span>`;
+}
+
+function renderHeader() {
+  const m = DATA.metadata;
+  document.getElementById('brandTitle').textContent = BRAND;
+  document.title = `${BRAND} AIEO Dashboard`;
+  document.getElementById('headerMeta').textContent =
+    `监控周期: ${m.date_range} | 共${m.report_count}次监控 | ${m.platforms.length}个AI平台 | ${m.question_count}个核心问题`;
+  // Latest report date badge
+  document.getElementById('latestDate').textContent = m.latest_date || '--';
+  // Dashboard generation date (today, local TZ)
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('generatedDate').textContent =
+    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  // Health badge
+  const score = DATA.latest_metrics.aieo_health_score;
+  const el = document.getElementById('healthBadge');
+  const scoreEl = document.getElementById('healthScore');
+  if (score != null) {
+    scoreEl.textContent = Math.round(score);
+    el.className = 'health-badge ' + (score >= 80 ? 'health-good' : score >= 60 ? 'health-warn' : 'health-bad');
+  } else {
+    scoreEl.textContent = '--';
+    el.className = 'health-badge health-warn';
+  }
+}
+
+function renderFooter() {
+  const m = DATA.metadata;
+  const footer = document.createElement('div');
+  footer.style.cssText = 'margin-top:32px; padding:16px 20px; background:rgba(15,21,32,.6); border-top:1px solid #2a3a4a; border-radius:6px; font-size:12px; color:#8899aa; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between;';
+  const sourceCount = (m.source_files && m.source_files.length) || m.report_count || 0;
+  footer.innerHTML = `
+    <div>
+      <strong style="color:#4fc3f7;">📊 本期监控:</strong> ${m.latest_date || '--'}
+      <span style="margin:0 8px; opacity:.4;">|</span>
+      <strong style="color:#66bb6a;">监控周期:</strong> ${m.date_range || '--'}
+    </div>
+    <div>
+      <strong>📅 Dashboard 生成:</strong> <span id="footerGenDate">--</span>
+      <span style="margin:0 8px; opacity:.4;">|</span>
+      <strong>数据源:</strong> ${sourceCount} 份监控报告
+      <span style="margin:0 8px; opacity:.4;">|</span>
+      <strong>Parser schema:</strong> v${DATA.schema_version || 1}
+    </div>
+  `;
+  document.body.appendChild(footer);
+  document.getElementById('footerGenDate').textContent = document.getElementById('generatedDate').textContent;
+}
+
+function renderQuestionTypeCards() {
+  const container = document.getElementById('questionTypeCards');
+  const stats = DATA.question_type_stats;
+  const types = ['brand', 'category', 'comparison', 'scenario'];
+  let html = '';
+  for (const t of types) {
+    const s = stats[t] || { total: 0, mentioned: 0, first_rec: 0 };
+    const rate = s.total > 0 ? Math.round(s.mentioned / s.total * 100) : 0;
+    const frRate = s.total > 0 ? Math.round(s.first_rec / s.total * 100) : 0;
+    const qCount = new Set(); // approximate question count
+    html += `<div class="card">
+      <h3>${TYPE_LABELS[t]} 提及率</h3>
+      <div class="big" style="color:${TYPE_COLORS[t]}">${rate}%</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">首推率 ${frRate}%</div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+function renderHeatmap() {
+  const pr = DATA.latest_platform_results;
+  if (!pr.questions || pr.questions.length === 0) {
+    document.getElementById('heatmapTable').innerHTML = '<div class="empty-state">暂无问题库数据</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>问题</th><th>类型</th>';
+  for (const p of pr.platforms) html += `<th>${p}</th>`;
+  html += '</tr></thead><tbody>';
+  for (const q of pr.questions) {
+    const typeLabel = TYPE_LABELS[q.type] || q.type;
+    const typeCls = q.type === 'brand' ? 'badge-green' : q.type === 'category' ? 'badge-blue' : q.type === 'comparison' ? 'badge-yellow' : 'badge-purple';
+    html += `<tr><td style="max-width:280px">${q.text}</td><td><span class="badge ${typeCls}">${typeLabel.split(' ')[0]}</span></td>`;
+    for (const p of pr.platforms) {
+      const r = q.results[p] || 'not_mentioned';
+      const d = RESULT_DISPLAY[r] || { text: r, cls: 'badge-blue' };
+      html += `<td><span class="badge ${d.cls}">${d.text}</span></td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('heatmapTable').innerHTML = html;
+}
+
+function renderQuestionTrendChart() {
+  const ts = DATA.question_type_timeseries;
+  const datasets = [];
+  for (const [type, values] of Object.entries(ts)) {
+    if (type === 'dates') continue;
+    if (values.some(v => v != null)) {
+      datasets.push({
+        label: TYPE_LABELS[type] || type,
+        data: values,
+        borderColor: TYPE_COLORS[type] || '#ccc',
+        backgroundColor: (TYPE_COLORS[type] || '#ccc') + '1a',
+        fill: true, tension: .3, spanGaps: false
+      });
+    }
+  }
+  new Chart(document.getElementById('chartQuestionTrend'), {
+    type: 'line',
+    data: { labels: DATA.timeseries.dates.map(d => d?.substring(5) || ''), datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } },
+      interaction: { mode: 'index', intersect: false }
+    }
+  });
+}
+
+function renderRiskSection() {
+  const interceptions = DATA.interceptions || [];
+  const recs = DATA.latest_recommendations || {};
+  let html = '<div class="grid g2">';
+  // Issues
+  html += '<div><h3 style="color:var(--red);margin-bottom:8px;">未提及的问题 (截流风险)</h3>';
+  if (interceptions.length > 0) {
+    for (const i of interceptions.slice(0, 8)) {
+      html += `<div class="timeline-item"><div class="timeline-date">${i.platform}</div><div class="timeline-content">${i.question}</div></div>`;
+    }
+  } else {
+    html += '<div style="color:var(--muted);padding:12px;">暂无截流风险</div>';
+  }
+  html += '</div>';
+  // Recommendations
+  html += '<div><h3 style="color:var(--green);margin-bottom:8px;">优化建议</h3>';
+  const actions = recs.actions || [];
+  const issues = recs.issues || [];
+  for (const a of [...issues, ...actions].slice(0, 6)) {
+    html += `<div class="timeline-item"><div class="timeline-content">${a}</div></div>`;
+  }
+  if (actions.length === 0 && issues.length === 0) {
+    html += '<div style="color:var(--muted);padding:12px;">暂无建议</div>';
+  }
+  html += '</div></div>';
+  document.getElementById('riskSection').innerHTML = html;
+}
+
+function renderSoVCards() {
+  const m = DATA.latest_metrics;
+  const f = DATA.first_metrics;
+  const coverage = m.platform_coverage || `${DATA.metadata.platforms.length}/${DATA.metadata.platforms.length}`;
+  document.getElementById('sovCards').innerHTML = `
+    <div class="card"><h3>整体 AI 提及率</h3><div class="big ${m.ai_mention_rate >= 70 ? 'up' : ''}">${pct(m.ai_mention_rate)}</div>${changeStr(m.ai_mention_rate, f.ai_mention_rate)}</div>
+    <div class="card"><h3>AI 首推率</h3><div class="big ${m.ai_first_recommend_rate >= 40 ? 'up' : ''}">${pct(m.ai_first_recommend_rate)}</div>${changeStr(m.ai_first_recommend_rate, f.ai_first_recommend_rate)}</div>
+    <div class="card"><h3>平台覆盖率</h3><div class="big up">${coverage}</div></div>
+    <div class="card"><h3>定位一致率</h3><div class="big" style="color:var(--accent)">${pct(m.positioning_consistency_rate)}</div>${changeStr(m.positioning_consistency_rate, f.positioning_consistency_rate)}</div>`;
+}
+
+function renderPlatformBars() {
+  const perfs = DATA.latest_platform_performance;
+  if (!perfs.length) {
+    document.getElementById('platformBars').innerHTML = '<div class="empty-state">暂无平台数据</div>';
+    return;
+  }
+  let html = '';
+  for (const p of perfs.sort((a, b) => (b.mention_rate || 0) - (a.mention_rate || 0))) {
+    const mr = p.mention_rate || 0;
+    const fr = p.first_recommend_rate || 0;
+    html += `<div class="platform-bar">
+      <div class="name">${p.name}</div>
+      <div class="bar-bg"><div class="bar-fill bar-mention" style="width:${mr}%">${mr}%</div></div>
+      <div class="bar-bg"><div class="bar-fill bar-first" style="width:${fr}%">${fr}%</div></div>
+    </div>`;
+  }
+  document.getElementById('platformBars').innerHTML = html;
+}
+
+function renderSoVTrendChart() {
+  const ts = DATA.timeseries;
+  new Chart(document.getElementById('chartSoVTrend'), {
+    type: 'line',
+    data: {
+      labels: ts.dates.map(d => d?.substring(5) || ''),
+      datasets: [
+        { label: 'AI提及率', data: ts.ai_mention_rate, borderColor: '#4fc3f7', backgroundColor: 'rgba(79,195,247,.15)', fill: true, tension: .3, borderWidth: 2 },
+        { label: 'AI首推率', data: ts.ai_first_recommend_rate, borderColor: '#66bb6a', backgroundColor: 'rgba(102,187,106,.15)', fill: true, tension: .3, borderWidth: 2 },
+        { label: '定位一致率', data: ts.positioning_consistency_rate, borderColor: '#ffd54f', borderDash: [5,3], tension: .3, borderWidth: 1.5 },
+        { label: 'AIEO健康度', data: ts.aieo_health_score, borderColor: '#ef5350', pointRadius: 6, pointBackgroundColor: '#ef5350', showLine: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } },
+      interaction: { mode: 'index', intersect: false }
+    }
+  });
+}
+
+function renderInterceptionTable() {
+  const interceptions = DATA.interceptions || [];
+  if (!interceptions.length) {
+    document.getElementById('interceptionTable').innerHTML = '<div class="insight-box">所有问题在所有平台均被提及, 暂无截流风险。</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>问题</th><th>平台</th><th>类型</th></tr></thead><tbody>';
+  for (const i of interceptions) {
+    const typeCls = i.type === 'brand' ? 'badge-green' : i.type === 'category' ? 'badge-blue' : i.type === 'comparison' ? 'badge-yellow' : 'badge-purple';
+    html += `<tr><td>${i.question}</td><td><span class="badge badge-red">${i.platform}</span></td><td><span class="badge ${typeCls}">${TYPE_LABELS[i.type]?.split(' ')[0] || i.type}</span></td></tr>`;
+  }
+  html += '</tbody></table>';
+  html += `<div class="insight-box warning" style="margin-top:12px;"><b>截流总计:</b> ${interceptions.length}个问题-平台组合未被提及。优先处理品牌词和品类词的截流问题。</div>`;
+  document.getElementById('interceptionTable').innerHTML = html;
+}
+
+function renderPlatformWeightChart() {
+  const platforms = DATA.metadata.platforms;
+  const defaultWeights = { '豆包': 25, 'ChatGPT': 20, 'Perplexity': 15, 'Kimi': 15, 'Claude': 15, '文心一言': 10, '文心': 10, 'DeepSeek': 15 };
+  const labels = platforms.map(p => p + ' ' + (defaultWeights[p] || Math.round(100 / platforms.length)) + '%');
+  const weights = platforms.map(p => defaultWeights[p] || Math.round(100 / platforms.length));
+  new Chart(document.getElementById('chartPlatformWeight'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: weights, backgroundColor: PLATFORM_COLORS.slice(0, platforms.length), borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 11 } } } } }
+  });
+}
+
+function renderContentCards() {
+  const m = DATA.latest_metrics;
+  const f = DATA.first_metrics;
+  document.getElementById('contentCards').innerHTML = `
+    <div class="card"><h3>内容准确率</h3><div class="big up">${pct(m.content_accuracy_rate || 95)}</div></div>
+    <div class="card"><h3>定位一致率</h3><div class="big" style="color:var(--accent)">${pct(m.positioning_consistency_rate)}</div>${changeStr(m.positioning_consistency_rate, f.positioning_consistency_rate)}</div>
+    <div class="card"><h3>情感正面率</h3><div class="big up">${pct(m.sentiment_positive_rate)}</div>${changeStr(m.sentiment_positive_rate, f.sentiment_positive_rate)}</div>`;
+}
+
+function renderContentEffectTable() {
+  const stats = DATA.question_type_stats;
+  let html = '<table><thead><tr><th>内容类型</th><th>提及率</th><th>首推率</th><th>评级</th></tr></thead><tbody>';
+  for (const [type, s] of Object.entries(stats)) {
+    const mentionRate = s.total > 0 ? Math.round(s.mentioned / s.total * 100) : 0;
+    const frRate = s.total > 0 ? Math.round(s.first_rec / s.total * 100) : 0;
+    const badge = frRate >= 80 ? 'badge-green' : frRate >= 50 ? 'badge-blue' : frRate >= 30 ? 'badge-yellow' : 'badge-red';
+    const rating = frRate >= 80 ? '最优' : frRate >= 50 ? '优秀' : frRate >= 30 ? '良好' : '需改善';
+    html += `<tr><td>${TYPE_LABELS[type] || type}</td><td>${mentionRate}%</td><td>${frRate}%</td><td><span class="badge ${badge}">${rating}</span></td></tr>`;
+  }
+  html += '</tbody></table>';
+  document.getElementById('contentEffectTable').innerHTML = html;
+}
+
+function renderPositioningChart() {
+  const m = DATA.latest_metrics;
+  const f = DATA.first_metrics;
+  const labels = ['提及率', '首推率', '定位一致', '情感正面', '内容准确'];
+  const latestData = [m.ai_mention_rate||0, m.ai_first_recommend_rate||0, m.positioning_consistency_rate||0, m.sentiment_positive_rate||0, m.content_accuracy_rate||95];
+  const firstData = [f.ai_mention_rate||0, f.ai_first_recommend_rate||0, f.positioning_consistency_rate||0, f.sentiment_positive_rate||0, f.content_accuracy_rate||50];
+  new Chart(document.getElementById('chartPositioning'), {
+    type: 'radar',
+    data: { labels, datasets: [
+      { label: '最新', data: latestData, borderColor: '#4fc3f7', backgroundColor: 'rgba(79,195,247,.2)', borderWidth: 2 },
+      { label: '首期', data: firstData, borderColor: '#ef5350', backgroundColor: 'rgba(239,83,80,.1)', borderWidth: 1, borderDash: [4,3] }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { min: 0, max: 100, ticks: { stepSize: 20, backdropColor: 'transparent' }, grid: { color: 'rgba(42,58,74,.5)' } } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+}
+
+function renderContentTimeline() {
+  const allRecs = DATA.all_recommendations || [];
+  if (!allRecs.length) {
+    document.getElementById('contentTimeline').innerHTML = '<div class="empty-state">暂无时间线数据</div>';
+    return;
+  }
+  let html = '';
+  for (const r of allRecs.slice(-8)) {
+    if (r.highlights?.length) {
+      for (const h of r.highlights.slice(0, 2)) {
+        html += `<div class="timeline-item"><div class="timeline-date">${r.date?.substring(5)||''}</div><div class="timeline-content"><span class="badge badge-green" style="margin-right:4px;">亮点</span>${h}</div></div>`;
+      }
+    }
+    if (r.issues?.length) {
+      for (const i of r.issues.slice(0, 2)) {
+        html += `<div class="timeline-item"><div class="timeline-date">${r.date?.substring(5)||''}</div><div class="timeline-content"><span class="badge badge-yellow" style="margin-right:4px;">关注</span>${i}</div></div>`;
+      }
+    }
+  }
+  document.getElementById('contentTimeline').innerHTML = html || '<div class="empty-state">暂无事件记录</div>';
+}
+
+function renderCompetitorTrendChart() {
+  const compTs = DATA.competitor_timeseries;
+  const datasets = [];
+  let i = 0;
+  for (const [name, data] of Object.entries(compTs)) {
+    // Align competitor data to main timeseries dates
+    const aligned = DATA.timeseries.dates.map(d => {
+      const idx = data.dates.indexOf(d);
+      return idx >= 0 ? data.rates[idx] : null;
+    });
+    datasets.push({
+      label: name, data: aligned,
+      borderColor: PLATFORM_COLORS[i % PLATFORM_COLORS.length],
+      borderWidth: 1.5, tension: .3, borderDash: [4,3]
+    });
+    i++;
+  }
+  // Add brand's own line
+  datasets.unshift({
+    label: BRAND, data: DATA.timeseries.ai_mention_rate,
+    borderColor: '#4fc3f7', borderWidth: 3, tension: .3, pointRadius: 3
+  });
+  new Chart(document.getElementById('chartCompTrend'), {
+    type: 'line',
+    data: { labels: DATA.timeseries.dates.map(d => d?.substring(5) || ''), datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } },
+      interaction: { mode: 'index', intersect: false }
+    }
+  });
+}
+
+function renderCompetitorRadarChart() {
+  const comps = DATA.latest_competitors;
+  if (!comps.length) return;
+  const labels = ['提及率', '市场份额', '内容质量', '行业聚焦'];
+  const datasets = [{ label: BRAND, data: [DATA.latest_metrics.ai_mention_rate||0, 50, DATA.latest_metrics.positioning_consistency_rate||0, 90], borderColor: '#4fc3f7', backgroundColor: 'rgba(79,195,247,.2)', borderWidth: 2 }];
+  comps.slice(0, 4).forEach((c, i) => {
+    datasets.push({
+      label: c.name, data: [c.mention_rate||0, 40, 60, 40],
+      borderColor: PLATFORM_COLORS[(i+1) % PLATFORM_COLORS.length],
+      backgroundColor: PLATFORM_COLORS[(i+1) % PLATFORM_COLORS.length] + '1a',
+      borderWidth: 1.5
+    });
+  });
+  new Chart(document.getElementById('chartCompRadar'), {
+    type: 'radar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, backdropColor: 'transparent' }, grid: { color: 'rgba(42,58,74,.5)' } } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+}
+
+function renderCompetitorTable() {
+  const comps = DATA.latest_competitors;
+  if (!comps.length) {
+    document.getElementById('competitorTable').innerHTML = '<div class="empty-state">暂无竞品数据</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>竞品</th><th>提及率</th><th>变化</th><th>威胁等级</th></tr></thead><tbody>';
+  for (const c of comps) {
+    const rate = c.mention_rate != null ? c.mention_rate + '%' : 'N/A';
+    const change = c.change || '→';
+    const threat = (c.mention_rate||0) >= 85 ? 'badge-red' : (c.mention_rate||0) >= 65 ? 'badge-yellow' : 'badge-blue';
+    const threatLabel = (c.mention_rate||0) >= 85 ? '高' : (c.mention_rate||0) >= 65 ? '中' : '低';
+    html += `<tr><td><b>${c.name}</b></td><td>${rate}</td><td>${change}</td><td><span class="badge ${threat}">${threatLabel}</span></td></tr>`;
+  }
+  html += '</tbody></table>';
+  document.getElementById('competitorTable').innerHTML = html;
+}
+
+// ===== INIT =====
+renderHeader();
+renderQuestionTypeCards();
+renderHeatmap();
+renderQuestionTrendChart();
+renderRiskSection();
+renderSoVCards();
+renderPlatformBars();
+renderSoVTrendChart();
+renderInterceptionTable();
+renderPlatformWeightChart();
+renderContentCards();
+renderContentEffectTable();
+renderPositioningChart();
+renderContentTimeline();
+renderCompetitorTrendChart();
+renderCompetitorRadarChart();
+renderCompetitorTable();
+renderFooter();
+</script>
+</body>
+</html>

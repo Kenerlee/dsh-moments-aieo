@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <title>{{COMPANY_NAME}} - {{SLOGAN}}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  
+  <!-- Fonts - Replace with extracted fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family={{HEADING_FONT}}&family={{BODY_FONT}}&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ============================================
+       HEADER / NAVIGATION
+       ============================================ -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">
+        <img src="images/logo.png" alt="{{COMPANY_NAME}}" class="nav__logo-img">
+      </a>
+      
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a href="#home" class="nav__link active">首页</a>
+          </li>
+          <li class="nav__item">
+            <a href="#features" class="nav__link">功能特点</a>
+          </li>
+          <li class="nav__item">
+            <a href="#about" class="nav__link">关于我们</a>
+          </li>
+          <li class="nav__item">
+            <a href="#contact" class="nav__link">联系我们</a>
+          </li>
+        </ul>
+        
+        <div class="nav__close" id="nav-close">
+          <i class="ri-close-line"></i>
+        </div>
+      </div>
+      
+      <div class="nav__buttons">
+        <a href="#contact" class="button button--primary">{{CTA_TEXT}}</a>
+      </div>
+      
+      <div class="nav__toggle" id="nav-toggle">
+        <i class="ri-menu-line"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================
+       HERO SECTION - CUSTOMIZE THIS CAREFULLY
+       ============================================ -->
+  <section class="hero" id="home">
+    <div class="hero__background">
+      <!-- Background image/video/gradient -->
+      <img src="images/hero-bg.jpg" alt="" class="hero__bg-image">
+      <div class="hero__overlay"></div>
+    </div>
+    
+    <div class="hero__content container">
+      <h1 class="hero__title">
+        {{HERO_TITLE}}
+      </h1>
+      <p class="hero__subtitle">
+        {{HERO_SUBTITLE}}
+      </p>
+      <div class="hero__cta">
+        <a href="#contact" class="button button--primary button--large">
+          {{PRIMARY_CTA}}
+        </a>
+        <a href="#features" class="button button--secondary button--large">
+          {{SECONDARY_CTA}}
+        </a>
+      </div>
+    </div>
+    
+    <!-- Optional: Hero media (product image, video, etc.) -->
+    <div class="hero__media">
+      <img src="images/hero-product.png" alt="{{PRODUCT_NAME}}" class="hero__product-image">
+    </div>
+  </section>
+
+  <!-- ============================================
+       FEATURES / BENEFITS SECTION
+       ============================================ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">功能特点</h2>
+        <p class="section__description">
+          {{FEATURES_INTRO}}
+        </p>
+      </div>
+      
+      <div class="features__grid">
+        <!-- Feature 1 -->
+        <div class="feature__card">
+          <div class="feature__icon">
+            <i class="ri-shield-check-line"></i>
+          </div>
+          <h3 class="feature__title">{{FEATURE_1_TITLE}}</h3>
+          <p class="feature__description">{{FEATURE_1_DESC}}</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature__card">
+          <div class="feature__icon">
+            <i class="ri-speed-line"></i>
+          </div>
+          <h3 class="feature__title">{{FEATURE_2_TITLE}}</h3>
+          <p class="feature__description">{{FEATURE_2_DESC}}</p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="feature__card">
+          <div class="feature__icon">
+            <i class="ri-customer-service-line"></i>
+          </div>
+          <h3 class="feature__title">{{FEATURE_3_TITLE}}</h3>
+          <p class="feature__description">{{FEATURE_3_DESC}}</p>
+        </div>
+        
+        <!-- Add more features as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ABOUT / COMPANY SECTION
+       ============================================ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about__content">
+        <div class="about__text">
+          <h2 class="section__title">关于我们</h2>
+          <p class="about__description">
+            {{ABOUT_TEXT}}
+          </p>
+          <ul class="about__highlights">
+            <li>{{HIGHLIGHT_1}}</li>
+            <li>{{HIGHLIGHT_2}}</li>
+            <li>{{HIGHLIGHT_3}}</li>
+          </ul>
+        </div>
+        <div class="about__image">
+          <img src="images/about.jpg" alt="关于 {{COMPANY_NAME}}">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       TESTIMONIALS SECTION (OPTIONAL)
+       ============================================ -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2 class="section__title">客户评价</h2>
+      
+      <div class="testimonials__slider">
+        <!-- Testimonial 1 -->
+        <div class="testimonial__card">
+          <div class="testimonial__content">
+            <p class="testimonial__text">"{{TESTIMONIAL_1_TEXT}}"</p>
+          </div>
+          <div class="testimonial__author">
+            <img src="images/avatar-1.jpg" alt="" class="testimonial__avatar">
+            <div class="testimonial__info">
+              <h4 class="testimonial__name">{{TESTIMONIAL_1_NAME}}</h4>
+              <p class="testimonial__role">{{TESTIMONIAL_1_ROLE}}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Add more testimonials as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA SECTION
+       ============================================ -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta__content">
+        <h2 class="cta__title">{{CTA_SECTION_TITLE}}</h2>
+        <p class="cta__text">{{CTA_SECTION_TEXT}}</p>
+        <a href="#contact" class="button button--primary button--large">
+          {{CTA_BUTTON_TEXT}}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CONTACT SECTION
+       ============================================ -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">联系我们</h2>
+        <p class="section__description">我们期待与您的合作</p>
+      </div>
+      
+      <div class="contact__wrapper">
+        <!-- Contact Info -->
+        <div class="contact__info">
+          <div class="contact__item">
+            <i class="ri-phone-line"></i>
+            <div>
+              <h4>电话</h4>
+              <p>{{PHONE}}</p>
+            </div>
+          </div>
+          
+          <div class="contact__item">
+            <i class="ri-mail-line"></i>
+            <div>
+              <h4>邮箱</h4>
+              <p>{{EMAIL}}</p>
+            </div>
+          </div>
+          
+          <div class="contact__item">
+            <i class="ri-map-pin-line"></i>
+            <div>
+              <h4>地址</h4>
+              <p>{{ADDRESS}}</p>
+            </div>
+          </div>
+          
+          <div class="contact__social">
+            <a href="{{WECHAT_LINK}}" class="social__link" title="微信">
+              <i class="ri-wechat-line"></i>
+            </a>
+            <a href="{{WEIBO_LINK}}" class="social__link" title="微博">
+              <i class="ri-weibo-line"></i>
+            </a>
+            <!-- Add more social links -->
+          </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <form class="contact__form" id="contact-form">
+          <div class="form__group">
+            <input type="text" name="name" placeholder="您的姓名" required class="form__input">
+          </div>
+          <div class="form__group">
+            <input type="email" name="email" placeholder="您的邮箱" required class="form__input">
+          </div>
+          <div class="form__group">
+            <input type="tel" name="phone" placeholder="您的电话" class="form__input">
+          </div>
+          <div class="form__group">
+            <textarea name="message" placeholder="请输入您的留言..." required class="form__textarea"></textarea>
+          </div>
+          <button type="submit" class="button button--primary button--full">
+            提交留言
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <!-- Footer Logo & Description -->
+        <div class="footer__brand">
+          <img src="images/logo.png" alt="{{COMPANY_NAME}}" class="footer__logo">
+          <p class="footer__description">
+            {{FOOTER_DESCRIPTION}}
+          </p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="footer__links">
+          <h4 class="footer__title">快速链接</h4>
+          <ul>
+            <li><a href="#home">首页</a></li>
+            <li><a href="#features">功能特点</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#contact">联系我们</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="footer__contact">
+          <h4 class="footer__title">联系方式</h4>
+          <p><i class="ri-phone-line"></i> {{PHONE}}</p>
+          <p><i class="ri-mail-line"></i> {{EMAIL}}</p>
+          <p><i class="ri-map-pin-line"></i> {{ADDRESS}}</p>
+        </div>
+        
+        <!-- Social Media -->
+        <div class="footer__social">
+          <h4 class="footer__title">关注我们</h4>
+          <div class="social__links">
+            <a href="{{WECHAT_LINK}}"><i class="ri-wechat-line"></i></a>
+            <a href="{{WEIBO_LINK}}"><i class="ri-weibo-line"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="footer__bottom">
+        <p>&copy; {{YEAR}} {{COMPANY_NAME}}. All rights reserved.</p>
+        <p><a href="#">隐私政策</a> | <a href="#">服务条款</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       SCRIPTS
+       ============================================ -->
+  <!-- Icon library -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <!-- Main JS -->
+  <script src="js/main.js"></script>
+</body>
+</html>
