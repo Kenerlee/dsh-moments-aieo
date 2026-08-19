@@ -20,8 +20,8 @@
 ## 安装
 
 ```sh
-dsh plugin --profile web add dsh-moments-aieo      # 发布到 npm 之后
-dsh plugin --profile web add file:/clone/的路径     # 从本地 clone 装
+dsh plugin --profile web add github:Kenerlee/dsh-moments-aieo   # 直接从 GitHub 装
+dsh plugin --profile web add file:/clone/的路径                  # 从本地 clone 装
 ```
 
 然后在 `~/.dsh/profiles/web/package.json` 的 bundle 列表里加上包名：
