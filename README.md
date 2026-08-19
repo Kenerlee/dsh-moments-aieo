@@ -20,7 +20,8 @@ The plugin body is deliberately thin: it mounts [`@deepseek-ai/dsh-skill-filesys
 ## Install
 
 ```sh
-dsh plugin --profile web add dsh-moments-aieo
+dsh plugin --profile web add dsh-moments-aieo      # once published to npm
+dsh plugin --profile web add file:/path/to/clone   # from a local clone
 ```
 
 Then add the package to the profile's bundle list in `~/.dsh/profiles/web/package.json`:
