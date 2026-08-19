@@ -1,65 +1,82 @@
-# moments-aieo
+# dsh-moments-aieo
 
-把一整套 AIEO（GEO / AEO，生成引擎优化）交付方法论，打包成 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的一个 cordis 插件。
+English | [中文](README.zh.md)
 
-装上以后，agent 就带了「诊断 → 定位 → 内容 → 监控」四段服务流程的完整 skill 集。
+An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. Installing it gives an agent the whole four-stage service flow — **diagnosis → positioning → content → monitoring** — as a named skill provider.
 
-## 包含的 skills
+## Plugin
 
-| Skill | 用途 |
-|---|---|
-| `aieo-diagnosis` | 品牌 AI 可见性诊断，产出诊断报告 + 问题库初稿 |
-| `aieo-positioning` | 基于 April Dunford 方法论的 AIEO 定位分析，迭代问题库 |
-| `aieo-query-miner` | 只认白名单平台后台导出数据，提取真实搜索热词并生成问题库 |
-| `aieo-monitoring` | 定期监测 AI 平台可见性、SoV、内容质量与转化 |
-| `moments-aieo-dashboard` | 把监控报告渲染成交互式 HTML 面板 |
-| `content-creator` | 品牌调性一致的 SEO 内容生产 |
-| `humanizer-zh` | 去除中文文本里的 AI 写作痕迹 |
-| `landing-page-cloner` | 落地页高保真复刻 |
+Requires `ctx.skills` (`inject: ['skills']`).
 
-## 安装
+The plugin body is deliberately thin: it mounts [`@deepseek-ai/dsh-skill-filesystem`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/skill/skill-filesystem) with `includeDefaultRoots: false` over its own `skills/` directory, so this set registers under one provider name and never collides with same-named skills in `~/.dsh/skills` or `~/.agents/skills`. No scanner, watcher, or frontmatter parser is reimplemented here.
 
-```sh
-git clone https://github.com/Kenerlee/moments-aieo.git
-```
+### Config
 
-把插件放进 profile（bare specifier 需要能解析到 harness 的包，所以插件文件放在 profile 目录下）：
+| Field | Default | Meaning |
+|---|---|---|
+| `skillsDir` | the package's own `skills/` | Directory holding the `<name>/SKILL.md` bundles. Point it at a working tree during development. |
+| `providerName` | `moments-aieo` | Provider name registered on `ctx.skills`, keeping this set separable from the user's own roots. |
+
+## Install
 
 ```sh
-mkdir -p ~/.dsh/profiles/web/plugins/moments-aieo
-cp <clone 路径>/index.mjs ~/.dsh/profiles/web/plugins/moments-aieo/
+dsh plugin --profile web add dsh-moments-aieo
 ```
 
-在 `~/.dsh/profiles/web/cordis.patch.yml` 里挂一行：
+Then add the package to the profile's bundle list in `~/.dsh/profiles/web/package.json`:
+
+```json
+{ "dsh": { "profile": { "bundles": [
+  "@deepseek-ai/dsh-base",
+  "@deepseek-ai/dsh-web-app",
+  "dsh-moments-aieo"
+] } } }
+```
+
+The bundle's own `cordis.patch.yml` inserts the row, so no profile patch is required. Override it by id in `~/.dsh/profiles/web/cordis.patch.yml` when you want your own skill directory:
 
 ```yaml
-- insert:
-    - id: moments-aieo
-      name: './plugins/moments-aieo/index.mjs'
-      config:
-        skillsDir: /绝对路径/moments-aieo/skills
+- id: moments-aieo
+  config:
+    skillsDir: /absolute/path/to/your/skills
 ```
 
-验证：
+Verify without booting:
 
 ```sh
-node ~/.dsh/profiles/node_modules/@deepseek-ai/dsh/lib/bin.js --profile web --dump-config | grep -A 4 'id: moments-aieo'
+dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 ```
 
-## 配置
+## Skills
 
-| 字段 | 默认值 | 含义 |
-|---|---|---|
-| `skillsDir` | 本仓库的 `skills/` | skill bundle 所在目录 |
-| `providerName` | `moments-aieo` | 注册到 `ctx.skills` 的 provider 名，与用户自己的 skill 根隔离 |
+| Skill | Purpose |
+|---|---|
+| `aieo-diagnosis` | Brand AI-visibility diagnosis; emits a report plus the first draft of the question bank |
+| `aieo-positioning` | Positioning analysis on an AIEO-adapted April Dunford method; iterates the question bank |
+| `aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
+| `aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
+| `moments-aieo-dashboard` | Renders monitoring reports into an interactive HTML dashboard |
+| `content-creator` | Brand-voice-consistent SEO content production |
+| `humanizer-zh` | Strips AI writing tells from Chinese text |
+| `landing-page-cloner` | High-fidelity landing-page replication |
 
-插件本身只做一件事：以 `includeDefaultRoots: false` 复用 `@deepseek-ai/dsh-skill-filesystem`，把这套 skills 注册成一个独立命名的 provider——所以它不会跟 `~/.dsh/skills`、`~/.agents/skills` 里的同名 skill 打架。
+The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 
-## 已知限制
+## Model Experience
 
-- **工具名是 Claude 口径**：skill 正文里的 `Read` / `Write` / `mcp__playwright__browser_*` 在 dsh 里不存在，对应的是 `bash` / `str_replace_editor` / `fs` 工具和 `dsh-mcp-client` 挂的 MCP。frontmatter 里的 `allowed-tools` 也会被 dsh 忽略（不报错，但不生效）。
-- **Web 模式**：`dsh-web-app` 会禁用 host 层的 `skill-filesystem`，skill 由 agent preset 挂载；本插件注册在全局层，preset 读到的是合并后的 catalog，所以照常可见。
-- **参考案例不随仓库分发**：诊断 skill 引用的客户材料留在本地工作目录。
+Indirectly, through `@deepseek-ai/dsh-tool-skill`: this provider's names and capped descriptions appear in the model's skill catalog, and `skill(name)` loads the selected `SKILL.md` body plus its resource base. Paths, provider ranks, and the mount configuration stay hidden from the model.
+
+#### KV Cache effect
+
+Catalog only. Registration adds eight rows to the catalog digest once; skill bodies enter history only when the model loads one.
+
+## Known Limitations and Deferred Work
+
+- **Tool names are written in Claude dialect** — the skill bodies name `Read`, `Write`, and `mcp__playwright__browser_*`. Under dsh those are `bash`, `str_replace_editor`, the `fs` tools, and whatever `dsh-mcp-client` mounts. The frontmatter `allowed-tools` key is ignored by dsh's parser: it neither errors nor restricts anything.
+- **Web mode disables the host-level provider** — `dsh-web-app` sets `skill-filesystem: disabled` because agent presets own local discovery. This bundle registers globally and preset agents read the merged catalog, so the set stays visible; a deployment that isolates its presets from global registrations would not see it.
+- **No build step** — the plugin ships as plain `.mjs` with no TypeScript source, no `lib/`, and no type declarations. It is twenty lines; a consumer wanting types writes them.
+- **Reference cases are not distributed** — the diagnosis skill's worked client examples live outside this repository.
+- **Chinese-first content** — every AIEO skill body is written in Chinese, and the scoring rubrics assume Chinese-language AI search platforms.
 
 ## License
 

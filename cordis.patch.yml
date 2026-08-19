@@ -1,0 +1,7 @@
+# The dsh-moments-aieo bundle patch: one row, applied after every earlier
+# bundle layer. The profile's own cordis.patch.yml still overrides it by id —
+# override `config.skillsDir` there to point at your own skill directory.
+
+- insert:
+    - id: moments-aieo
+      name: 'dsh-moments-aieo'
