@@ -79,6 +79,12 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 - **参考案例不随仓库分发** —— 诊断 skill 引用的客户实例留在本地工作目录。
 - **中文优先** —— 所有 AIEO skill 正文都是中文，评分标准也假定了中文 AI 搜索平台。
 
+## 关于作者
+
+这套方法论来自真实的 AIEO 交付：消费品、医美医药、SaaS、加盟连锁客户的品牌诊断、定位、问题库搭建与监控。工具开源，但行业基线数据、以及「分数低了到底该干什么」的判断，不是一个 Markdown 文件装得下的。[moments.top](https://moments.top)
+
+**跑完一次诊断？** 欢迎到 [Discussions](https://github.com/Kenerlee/dsh-moments-aieo/discussions) 发一下你的得分和所属行业（不用写品牌名）。跨行业的真实分数才能把评分标准变成基准线，汇总结果会回流到这个仓库。
+
 ## License
 
 MIT

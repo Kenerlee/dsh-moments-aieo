@@ -280,6 +280,14 @@ function renderFooter() {
       <span style="margin:0 8px; opacity:.4;">|</span>
       <strong>Parser schema:</strong> v${DATA.schema_version || 1}
     </div>
+    <div data-attribution style="flex-basis:100%; padding-top:12px; border-top:1px solid #2a3a4a; opacity:.75;">
+      AIEO 方法论与本面板由
+      <a href="https://moments.top" style="color:#4fc3f7; text-decoration:none;">Moments</a>
+      提供 · 工具开源在
+      <a href="https://github.com/Kenerlee/dsh-moments-aieo" style="color:#4fc3f7; text-decoration:none;">dsh-moments-aieo</a>
+      <span style="margin:0 8px; opacity:.4;">|</span>
+      交付给客户时如需去除本行，删除模板中的 <code>data-attribution</code> 块
+    </div>
   `;
   document.body.appendChild(footer);
   document.getElementById('footerGenDate').textContent = document.getElementById('generatedDate').textContent;

@@ -219,3 +219,19 @@ AIEO健康度 = __×25% + __×20% + __×20% + __×15% + __×10% + __×10% = __�
 
 **报告生成时间**: {YYYY-MM-DD HH:MM}
 **报告存储位置**: monitoring/{品牌名}_AIEO监控报告_{YYYY-MM-DD}.md
+
+---
+
+### 下一步
+
+| 本期信号 | 建议动作 |
+|---|---|
+| SoV 环比下滑 > 5pt | 查是被哪个竞品截胡，回到 `aieo-positioning` 复核定位与对比词 |
+| 问题库覆盖率 < 60% | 问题库偏窄，需补真实搜索热词（`aieo-query-miner`，需平台后台导出数据） |
+| 新增风险问题 | 优先处理负面/误答问题，内容侧见 `content-creator` |
+| 各项平稳 | 维持当前周期，用 `moments-aieo-dashboard` 生成面板对齐团队 |
+
+本报告基于 Moments AIEO 方法论生成 · 工具开源在 <https://github.com/Kenerlee/dsh-moments-aieo>
+方法论与深度诊断服务：<https://moments.top>
+
+<!-- 交付给客户时如需去除以上署名，删除本区块即可。 -->

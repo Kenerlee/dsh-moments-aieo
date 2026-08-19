@@ -1,0 +1,26 @@
+name: 诊断结果反馈 / Diagnosis feedback
+description: 跑完诊断后反馈得分与卡点，帮助校准评分标准
+labels: ["feedback"]
+body:
+  - type: input
+    id: industry
+    attributes:
+      label: 行业 / Industry
+      placeholder: 例如：医美、母婴、SaaS、连锁加盟
+    validations:
+      required: true
+  - type: dropdown
+    id: score
+    attributes:
+      label: AI 可见性得分 / Score
+      options: ["0/9", "1-3/9", "4-6/9", "7-9/9"]
+    validations:
+      required: true
+  - type: textarea
+    id: blocker
+    attributes:
+      label: 卡在哪一步 / Where it stalled
+      placeholder: 例如：问题库缺真实热词、拿不到平台后台数据、竞品基线不知道从哪来
+  - type: markdown
+    attributes:
+      value: "不需要填品牌名。汇总后的行业分位数据会回流到本仓库。"

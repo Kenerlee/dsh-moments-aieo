@@ -79,6 +79,12 @@ Catalog only. Registration adds eight rows to the catalog digest once; skill bod
 - **Reference cases are not distributed** — the diagnosis skill's worked client examples live outside this repository.
 - **Chinese-first content** — every AIEO skill body is written in Chinese, and the scoring rubrics assume Chinese-language AI search platforms.
 
+## Who built this
+
+The method comes from real AIEO delivery work — brand diagnosis, positioning, question-bank construction and monitoring for consumer, healthcare, SaaS and franchise clients. The tooling is open source; the industry baselines and the judgement of what to do with a low score are not things a Markdown file can carry. [moments.top](https://moments.top)
+
+**Ran a diagnosis?** Open a [Discussion](https://github.com/Kenerlee/dsh-moments-aieo/discussions) with your score and industry (no brand name needed). Real numbers across industries are what turn a scoring rubric into a benchmark, and the aggregate goes back into this repo.
+
 ## License
 
 MIT
