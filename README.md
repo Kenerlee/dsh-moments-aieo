@@ -2,7 +2,7 @@
 
 English | [中文](README.zh.md)
 
-An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. The method runs in four stages — **diagnosis → positioning → content → monitoring** — chained by one question bank: diagnosis drafts it, positioning corrects it, content consumes it, monitoring measures against it. This bundle ships the three stages that are method rather than writing (diagnosis, positioning, monitoring) plus the question bank itself, as one named skill provider; the content stage consumes the bank through whatever writing skill you already use.
+An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. The method runs in four stages — **diagnosis → positioning → content → monitoring** — chained by one question bank: diagnosis drafts it, positioning corrects it, content consumes it, monitoring measures against it. Installing this bundle gives an agent all four, plus the bank itself, as one named skill provider.
 
 ![Diagnosis report](assets/screenshot-diagnosis-report.png)
 
@@ -83,9 +83,14 @@ A diagnosis report and the monitoring dashboard, both from real client runs with
 | `moments-aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
 | `moments-aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
 | `moments-aieo-dashboard` | Renders monitoring reports into an interactive HTML dashboard |
+| `moments-content-creator` | Brand-voice-consistent SEO content production |
 | `moments-landing-page-cloner` | High-fidelity landing-page replication |
 
-Every skill here carries the `moments-` prefix, which is what keeps this set apart from same-named skills in a user's own roots. Two skills that used to ship here were dropped because they were not ours to namespace: a Chinese AI-tell remover (a public method sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)) and an SEO content skill by Alireza Rezvani. Install those from their own sources.
+Every skill here carries the `moments-` prefix, which is what keeps this set apart from same-named skills in a user's own roots.
+
+`moments-content-creator` is a derivative: it started as Alireza Rezvani's MIT-licensed `content-creator` and was iterated for AIEO delivery. The original author and license stay in its frontmatter.
+
+A Chinese AI-tell remover used to ship here and was dropped — it is a public method that belongs to nobody in particular, sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing); write it into your own skill root rather than taking a copy from here.
 
 The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 

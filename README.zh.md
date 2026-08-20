@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。方法分四段——**诊断 → 定位 → 内容 → 监控**——由同一份问题库串起来：诊断起草、定位修正、内容消费、监控度量。本 bundle 提供其中属于方法而非写作的三段（诊断、定位、监控）以及问题库本身，注册为一个独立命名的 skill provider；内容那段消费这份问题库，由你已有的写作 skill 承接。
+一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。方法分四段——**诊断 → 定位 → 内容 → 监控**——由同一份问题库串起来：诊断起草、定位修正、内容消费、监控度量。装上这个 bundle，agent 四段全有，外加问题库本身，注册为一个独立命名的 skill provider。
 
 ![诊断报告](assets/screenshot-diagnosis-report.png)
 
@@ -84,9 +84,14 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 | `moments-aieo-query-miner` | 只认白名单平台后台导出数据挖真实搜索热词，拒绝凭空编造 |
 | `moments-aieo-monitoring` | 定期监测可见性、SoV、内容质量与业务转化 |
 | `moments-aieo-dashboard` | 把监控报告渲染成交互式 HTML 面板 |
+| `moments-content-creator` | 品牌调性一致的 SEO 内容生产 |
 | `moments-landing-page-cloner` | 落地页高保真复刻 |
 
-这里每个 skill 都带 `moments-` 前缀，为的是和用户自己 skill 根里的同名 skill 分开。原先随包的两个 skill 已移除，因为它们不是我们的东西、不该冠这个前缀：中文 AI 痕迹清理（公开方法，出处是 [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)）和 Alireza Rezvani 的 SEO 内容 skill。请从它们各自的来源安装。
+这里每个 skill 都带 `moments-` 前缀，为的是和用户自己 skill 根里的同名 skill 分开。
+
+`moments-content-creator` 是衍生作品：起点是 Alireza Rezvani 以 MIT 发布的 `content-creator`，为 AIEO 交付做了迭代。原作者与许可证保留在它的 frontmatter 里。
+
+原先随包的中文 AI 痕迹清理 skill 已移除——那是不属于任何人的公开方法，出处是 [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，请写进你自己的 skill 根，而不是从这里拷一份。
 
 四个 AIEO skill 共享同一条产物链：诊断起草的问题库，由定位修正、内容消费、监控度量。不按顺序跑不会报错，只会得到一个更弱的问题库。
 
