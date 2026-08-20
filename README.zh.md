@@ -4,6 +4,9 @@
 
 一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。装上以后，agent 就带了完整的四段服务流程：**诊断 → 定位 → 内容 → 监控**，注册为一个独立命名的 skill provider。
 
+![诊断报告](assets/screenshot-diagnosis-report.png)
+
+
 ## 插件
 
 需要 `ctx.skills`（`inject: ['skills']`）。
@@ -69,7 +72,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 真实客户交付的诊断报告与监控面板，品牌信息已打码。
 
 ![监控面板](assets/screenshot-dashboard.png)
-![诊断报告](assets/screenshot-diagnosis-report.png)
+
 ![窄屏下的面板](assets/screenshot-dashboard-mobile.png)
 
 ## 包含的 skills
