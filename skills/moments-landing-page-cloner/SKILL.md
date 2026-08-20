@@ -1,5 +1,5 @@
 ---
-name: landing-page-cloner
+name: moments-landing-page-cloner
 description: 100% clone and recreate landing pages or websites. Use when user wants to replicate, clone, copy, or recreate an existing landing page, website homepage, or web page design. Triggers on requests like "复刻落地页", "clone this website", "recreate this landing page", "copy this page design", or any URL-based page replication task. Handles full workflow from URL analysis to final deliverable with custom branding.
 ---
 

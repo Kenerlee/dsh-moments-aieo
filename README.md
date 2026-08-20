@@ -83,10 +83,9 @@ A diagnosis report and the monitoring dashboard, both from real client runs with
 | `moments-aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
 | `moments-aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
 | `moments-aieo-dashboard` | Renders monitoring reports into an interactive HTML dashboard |
-| `content-creator` | Brand-voice-consistent SEO content production (third-party skill, MIT, by Alireza Rezvani) |
-| `landing-page-cloner` | High-fidelity landing-page replication |
+| `moments-landing-page-cloner` | High-fidelity landing-page replication |
 
-The five `moments-aieo-*` skills are this method; the prefix is what keeps them apart from same-named skills in a user's own roots. A Chinese AI-tell remover used to ship here and was dropped — it is a public method that belongs to nobody in particular, sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing); write it into your own skill root rather than taking a copy from here.
+Every skill here carries the `moments-` prefix, which is what keeps this set apart from same-named skills in a user's own roots. Two skills that used to ship here were dropped because they were not ours to namespace: a Chinese AI-tell remover (a public method sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)) and an SEO content skill by Alireza Rezvani. Install those from their own sources.
 
 The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 
