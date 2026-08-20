@@ -4,6 +4,8 @@ English | [中文](README.zh.md)
 
 An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. Installing it gives an agent the whole four-stage service flow — **diagnosis → positioning → content → monitoring** — as a named skill provider.
 
+![Diagnosis report](assets/screenshot-diagnosis-report.png)
+
 ## Plugin
 
 Requires `ctx.skills` (`inject: ['skills']`).
@@ -69,7 +71,7 @@ Without it the two skills still produce a technical audit and a report skeleton;
 A diagnosis report and the monitoring dashboard, both from real client runs with the brand redacted.
 
 ![Monitoring dashboard](assets/screenshot-dashboard.png)
-![Diagnosis report](assets/screenshot-diagnosis-report.png)
+
 ![Dashboard on a narrow screen](assets/screenshot-dashboard-mobile.png)
 
 ## Skills
