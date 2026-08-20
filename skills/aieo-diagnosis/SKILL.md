@@ -484,7 +484,7 @@ Month 3: 生态扩展（Week 9-12）
 ### 诊断流程
 
 1. **确认品牌信息**: 品牌名称、官网URL、行业
-2. **技术审计**: 使用 curl/WebFetch 检查网站的GEO技术配置
+2. **技术审计**: 使用 curl/`web_fetch` 检查网站的GEO技术配置
 3. **AI平台实测**: 使用 Playwright MCP 自动化测试各AI平台
    - 导航到AI平台 → 输入测试问题 → 获取回答 → 截图保存
    - 优先测试: 豆包、Kimi、DeepSeek、Perplexity

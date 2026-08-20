@@ -146,8 +146,8 @@ allowed-tools: Read, Write, Bash, Grep, Glob, WebFetch, WebSearch, mcp__playwrig
 
 ```
 Step 1: 读取问题库定稿
-        Glob: 02_positioning/{品牌名}_问题库_*.md
-        Read: 最新版本的问题库
+        glob: 02_positioning/{品牌名}_问题库_*.md
+        read: 最新版本的问题库
 
 Step 2: 选取监控问题
         - 全部 Tier 1 问题（约15题）
