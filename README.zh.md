@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。装上以后，agent 就带了完整的四段服务流程：**诊断 → 定位 → 内容 → 监控**，注册为一个独立命名的 skill provider。
+一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。方法分四段——**诊断 → 定位 → 内容 → 监控**——由同一份问题库串起来：诊断起草、定位修正、内容消费、监控度量。本 bundle 提供其中属于方法而非写作的三段（诊断、定位、监控）以及问题库本身，注册为一个独立命名的 skill provider；内容那段消费这份问题库，由你已有的写作 skill 承接。
 
 ![诊断报告](assets/screenshot-diagnosis-report.png)
 
