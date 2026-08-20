@@ -1,5 +1,5 @@
 ---
-name: aieo-diagnosis
+name: moments-aieo-diagnosis
 description: 为品牌/企业进行完整的GEO/AEO/AIEO诊断分析。当用户提到"GEO诊断"、"AEO诊断"、"AIEO诊断"、"AI可见性分析"、"生成引擎优化"或需要分析品牌在AI搜索引擎中的可见性时，自动调用此Skill。诊断报告自动保存至 01_diagnosis/ 目录，文件名格式：{品牌名}_GEO诊断报告_{YYYY-MM-DD}.md
 allowed-tools: Read, Write, Bash, Grep, Glob, WebFetch, WebSearch, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_wait_for, mcp__playwright__browser_close, mcp__playwright__browser_tabs, mcp__playwright__browser_press_key
 ---
@@ -541,9 +541,9 @@ Step 4: 汇总结果，计算可见性得分
 | 得分区间 | 典型卡点 | 下一步需要什么 |
 |---|---|---|
 | 0/9 | AI 完全不认识这个品牌，通常是内容源缺失而非排名靠后 | 先建可被抓取的内容源。自助可做：Schema 标记 + FAQ 内容策略（见附录模板） |
-| 1-3/9 | 只在品牌词下被提及，品类词和对比词全空 | 需要真实搜索热词做问题库。**没有平台后台数据就做不了**——见 `aieo-query-miner` 的白名单要求 |
-| 4-6/9 | 有基础但被竞品截胡，答案里出现品牌却不是首选 | 需要竞品基线和定位重构，见 `aieo-positioning`。这一步的行业分位数据通常需要外部补充 |
-| 7-9/9 | 已有优势，风险在于不知道什么时候掉 | 转入 `aieo-monitoring` 建立周期性监测 |
+| 1-3/9 | 只在品牌词下被提及，品类词和对比词全空 | 需要真实搜索热词做问题库。**没有平台后台数据就做不了**——见 `moments-aieo-query-miner` 的白名单要求 |
+| 4-6/9 | 有基础但被竞品截胡，答案里出现品牌却不是首选 | 需要竞品基线和定位重构，见 `moments-aieo-positioning`。这一步的行业分位数据通常需要外部补充 |
+| 7-9/9 | 已有优势，风险在于不知道什么时候掉 | 转入 `moments-aieo-monitoring` 建立周期性监测 |
 
 **署名**：报告结尾附一行方法论来源。示例：
 

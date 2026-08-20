@@ -64,18 +64,27 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 不配也能跑，只是这两个 skill 只剩技术审计和报告骨架，平台可见性实测那部分会缺。
 
+## 截图
+
+真实客户交付的诊断报告与监控面板，品牌信息已打码。
+
+![监控面板](assets/screenshot-dashboard.png)
+![诊断报告](assets/screenshot-diagnosis-report.png)
+![窄屏下的面板](assets/screenshot-dashboard-mobile.png)
+
 ## 包含的 skills
 
 | Skill | 用途 |
 |---|---|
-| `aieo-diagnosis` | 品牌 AI 可见性诊断，产出诊断报告 + 问题库初稿 |
-| `aieo-positioning` | 基于 AIEO 改造版 April Dunford 方法论的定位分析，迭代问题库 |
-| `aieo-query-miner` | 只认白名单平台后台导出数据挖真实搜索热词，拒绝凭空编造 |
-| `aieo-monitoring` | 定期监测可见性、SoV、内容质量与业务转化 |
+| `moments-aieo-diagnosis` | 品牌 AI 可见性诊断，产出诊断报告 + 问题库初稿 |
+| `moments-aieo-positioning` | 基于 AIEO 改造版 April Dunford 方法论的定位分析，迭代问题库 |
+| `moments-aieo-query-miner` | 只认白名单平台后台导出数据挖真实搜索热词，拒绝凭空编造 |
+| `moments-aieo-monitoring` | 定期监测可见性、SoV、内容质量与业务转化 |
 | `moments-aieo-dashboard` | 把监控报告渲染成交互式 HTML 面板 |
-| `content-creator` | 品牌调性一致的 SEO 内容生产 |
-| `humanizer-zh` | 去除中文文本里的 AI 写作痕迹 |
+| `content-creator` | 品牌调性一致的 SEO 内容生产（第三方 skill，MIT，作者 Alireza Rezvani） |
 | `landing-page-cloner` | 落地页高保真复刻 |
+
+五个 `moments-aieo-*` 才是这套方法本身，加前缀是为了和用户自己 skill 根里的同名 skill 分开。原先随包的中文 AI 痕迹清理 skill 已移除——那是不属于任何人的公开方法，出处是 [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，请写进你自己的 skill 根，而不是从这里拷一份。
 
 四个 AIEO skill 共享同一条产物链：诊断起草的问题库，由定位修正、内容消费、监控度量。不按顺序跑不会报错，只会得到一个更弱的问题库。
 

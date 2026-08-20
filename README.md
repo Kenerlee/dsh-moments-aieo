@@ -64,18 +64,27 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 Without it the two skills still produce a technical audit and a report skeleton; the platform-visibility measurements are what go missing.
 
+## Screenshots
+
+A diagnosis report and the monitoring dashboard, both from real client runs with the brand redacted.
+
+![Monitoring dashboard](assets/screenshot-dashboard.png)
+![Diagnosis report](assets/screenshot-diagnosis-report.png)
+![Dashboard on a narrow screen](assets/screenshot-dashboard-mobile.png)
+
 ## Skills
 
 | Skill | Purpose |
 |---|---|
-| `aieo-diagnosis` | Brand AI-visibility diagnosis; emits a report plus the first draft of the question bank |
-| `aieo-positioning` | Positioning analysis on an AIEO-adapted April Dunford method; iterates the question bank |
-| `aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
-| `aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
+| `moments-aieo-diagnosis` | Brand AI-visibility diagnosis; emits a report plus the first draft of the question bank |
+| `moments-aieo-positioning` | Positioning analysis on an AIEO-adapted April Dunford method; iterates the question bank |
+| `moments-aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
+| `moments-aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
 | `moments-aieo-dashboard` | Renders monitoring reports into an interactive HTML dashboard |
-| `content-creator` | Brand-voice-consistent SEO content production |
-| `humanizer-zh` | Strips AI writing tells from Chinese text |
+| `content-creator` | Brand-voice-consistent SEO content production (third-party skill, MIT, by Alireza Rezvani) |
 | `landing-page-cloner` | High-fidelity landing-page replication |
+
+The five `moments-aieo-*` skills are this method; the prefix is what keeps them apart from same-named skills in a user's own roots. A Chinese AI-tell remover used to ship here and was dropped — it is a public method that belongs to nobody in particular, sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing); write it into your own skill root rather than taking a copy from here.
 
 The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 

@@ -1,5 +1,5 @@
 ---
-name: aieo-monitoring
+name: moments-aieo-monitoring
 description: AIEO 效果监控与追踪工具，用于定期监测品牌在 AI 搜索平台的可见性变化、内容质量评估和业务转化追踪。当用户提到"AIEO监控"、"AI可见性追踪"、"效果监控"、"监控报告"、"定期测试"或需要追踪品牌在AI平台表现变化时，自动调用此Skill。监控报告保存至 04_monitoring/ 目录，文件名格式：{品牌名}_AIEO监控报告_{YYYY-MM-DD}.md
 allowed-tools: Read, Write, Bash, Grep, Glob, WebFetch, WebSearch, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_wait_for, mcp__playwright__browser_close, mcp__playwright__browser_tabs, mcp__playwright__browser_press_key
 ---
@@ -442,8 +442,8 @@ Step 5: 生成简要监控记录
 
 | Skill | 提供内容 |
 |-------|---------|
-| **aieo-diagnosis** | 初始基准数据、竞品列表、测试问题 |
-| **aieo-positioning** | 目标定位声明、核心信息点 |
+| **moments-aieo-diagnosis** | 初始基准数据、竞品列表、测试问题 |
+| **moments-aieo-positioning** | 目标定位声明、核心信息点 |
 | **aieo-content** | 已发布内容清单、FAQ列表 |
 
 ### 输出价值

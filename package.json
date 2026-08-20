@@ -27,7 +27,8 @@
   "files": [
     "index.mjs",
     "cordis.patch.yml",
-    "skills"
+    "skills",
+    "assets"
   ],
   "dsh": {
     "bundle": {

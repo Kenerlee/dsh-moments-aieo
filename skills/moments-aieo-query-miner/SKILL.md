@@ -1,5 +1,5 @@
 ---
-name: aieo-query-miner
+name: moments-aieo-query-miner
 description: 只基于小红书聚光、巨量算数/巨量云图、百度营销/百度指数、微信指数、5118、站内搜索日志这六类白名单来源批量导出的搜索词、推荐词、关联词和词频数据，按用户购买旅程提取消费者搜索热词，并生成符合AIEO（生成引擎优化）要求的品牌问题库与目标答案信号。当用户需要“获取真实热词”、“提取消费者问题”、“生成AIEO问题库”、“用户旅程关键词映射”或“导入平台后台检索词生成问题库”时，自动调用此Skill。严禁无数据源、非白名单数据源或凭空编造热词。
 ---
 
@@ -38,9 +38,9 @@ graph TD
 *   **动作**：确认目标品牌的中文名、英文名，核心产品（如丽芙/知原氨甲环酸片，质润壬二酸），以及品牌价值主张（如：黄褐斑长期管理解决方案提供者）。
 
 ### 2. 第 2 步：批量采集白名单真实数据
-*   **动作**：查阅 [data_sources.md](file:///Users/xxXxx/GenAI2025/AEO/Skills/aieo-query-miner/references/data_sources.md)，只从白名单来源导入热词：小红书聚光、巨量算数/巨量云图、百度营销/百度指数、微信指数、5118、站内搜索日志。
+*   **动作**：查阅 [data_sources.md](file:///Users/xxXxx/GenAI2025/AEO/Skills/moments-aieo-query-miner/references/data_sources.md)，只从白名单来源导入热词：小红书聚光、巨量算数/巨量云图、百度营销/百度指数、微信指数、5118、站内搜索日志。
 *   **禁止动作**：不得仅凭行业经验、AI 联想、公开文章标题、单次网页搜索结果、已有问题库或非白名单平台后台生成“高频热词”。这些最多只能作为“种子词/采集关键词”，不能作为最终真实热词数据。
-*   **输入准备**：将平台导出的热词整理为标准 JSON 格式，如 [sample_keywords.json](file:///Users/xxXxx/GenAI2025/AEO/Skills/aieo-query-miner/assets/sample_keywords.json)。每条记录必须包含 `keyword`、`source_platform`、`source_type`、`collected_at`、`raw_export_file`。若平台提供搜索量、指数、排名、环比、推荐理由等字段，必须保留。
+*   **输入准备**：将平台导出的热词整理为标准 JSON 格式，如 [sample_keywords.json](file:///Users/xxXxx/GenAI2025/AEO/Skills/moments-aieo-query-miner/assets/sample_keywords.json)。每条记录必须包含 `keyword`、`source_platform`、`source_type`、`collected_at`、`raw_export_file`。若平台提供搜索量、指数、排名、环比、推荐理由等字段，必须保留。
 
 ### 3. 第 3 步：数据溯源与质量校验
 *   **动作**：运行脚本前先检查字段完整性、去重、来源覆盖、采集日期和原始文件路径。至少输出“数据来源说明”。

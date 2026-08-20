@@ -1,5 +1,5 @@
 ---
-name: aieo-positioning
+name: moments-aieo-positioning
 description: 为品牌/企业进行 AIEO（AI Engine Optimization）时代的产品定位分析。当用户提到"产品定位"、"AIEO定位"、"品牌定位"、"定位分析"或需要帮助品牌在 AI 搜索引擎时代进行产品/服务定位时，自动调用此 Skill。基于 April Dunford 定位方法论的 AIEO 升级版，输出完整的定位策略文档。定位分析报告自动保存至 02_positioning/ 目录，文件名格式：{客户名称}_AIEO产品定位分析_{YYYY-MM-DD}.md
 allowed-tools: Read, Write, Bash, Grep, Glob, WebFetch, WebSearch, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_wait_for, mcp__playwright__browser_close
 ---
