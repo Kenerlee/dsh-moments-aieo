@@ -50,7 +50,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 ## 浏览器自动化
 
-`aieo-diagnosis` 和 `aieo-monitoring` 要用 Playwright 实测各 AI 搜索平台。dsh 通过 [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client) 接 MCP，工具名注册为 `mcp__<serverName>__<rawName>`——**和 Claude Code 是同一套命名**，所以 skill 正文里的 `mcp__playwright__browser_*` 只要 serverName 叫 `playwright` 就能直接解析：
+`moments-aieo-diagnosis` 和 `moments-aieo-monitoring` 要用 Playwright 实测各 AI 搜索平台。dsh 通过 [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client) 接 MCP，工具名注册为 `mcp__<serverName>__<rawName>`——**和 Claude Code 是同一套命名**，所以 skill 正文里的 `mcp__playwright__browser_*` 只要 serverName 叫 `playwright` 就能直接解析：
 
 ```yaml
 - insert:

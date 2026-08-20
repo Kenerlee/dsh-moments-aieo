@@ -28,7 +28,8 @@
     "index.mjs",
     "cordis.patch.yml",
     "skills",
-    "assets"
+    "assets",
+    "tests"
   ],
   "dsh": {
     "bundle": {

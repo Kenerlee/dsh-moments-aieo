@@ -50,7 +50,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 ## Browser automation
 
-`aieo-diagnosis` and `aieo-monitoring` drive real AI search platforms through Playwright. dsh reaches MCP servers through [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client), which registers their tools under `mcp__<serverName>__<rawName>` — the same server-qualified shape Claude Code uses, so the `mcp__playwright__browser_*` names in these skill bodies resolve as long as the server is named `playwright`:
+`moments-aieo-diagnosis` and `moments-aieo-monitoring` drive real AI search platforms through Playwright. dsh reaches MCP servers through [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client), which registers their tools under `mcp__<serverName>__<rawName>` — the same server-qualified shape Claude Code uses, so the `mcp__playwright__browser_*` names in these skill bodies resolve as long as the server is named `playwright`:
 
 ```yaml
 - insert:
