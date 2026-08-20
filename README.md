@@ -48,6 +48,22 @@ Verify without booting:
 dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 ```
 
+## Browser automation
+
+`aieo-diagnosis` and `aieo-monitoring` drive real AI search platforms through Playwright. dsh reaches MCP servers through [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client), which registers their tools under `mcp__<serverName>__<rawName>` — the same server-qualified shape Claude Code uses, so the `mcp__playwright__browser_*` names in these skill bodies resolve as long as the server is named `playwright`:
+
+```yaml
+- insert:
+    - id: mcp-playwright
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: playwright
+        command: npx
+        args: ['@playwright/mcp@latest']
+```
+
+Without it the two skills still produce a technical audit and a report skeleton; the platform-visibility measurements are what go missing.
+
 ## Skills
 
 | Skill | Purpose |
@@ -73,7 +89,7 @@ Catalog only. Registration adds eight rows to the catalog digest once; skill bod
 
 ## Known Limitations and Deferred Work
 
-- **Tool names are written in Claude dialect** — the skill bodies name `Read`, `Write`, and `mcp__playwright__browser_*`. Under dsh those are `bash`, `str_replace_editor`, the `fs` tools, and whatever `dsh-mcp-client` mounts. The frontmatter `allowed-tools` key is ignored by dsh's parser: it neither errors nor restricts anything.
+- **The frontmatter `allowed-tools` key does nothing under dsh** — the parser reads `name`, `description`, `whenToUse`, `metadata` and the two invocation flags, and ignores the rest. It neither errors nor restricts anything; the key is kept for Claude Code compatibility. Harness tool names in the bodies were corrected to dsh spellings (`read`, `glob`, `web_fetch`); MCP names need the server configured above.
 - **Web mode disables the host-level provider** — `dsh-web-app` sets `skill-filesystem: disabled` because agent presets own local discovery. This bundle registers globally and preset agents read the merged catalog, so the set stays visible; a deployment that isolates its presets from global registrations would not see it.
 - **No build step** — the plugin ships as plain `.mjs` with no TypeScript source, no `lib/`, and no type declarations. It is twenty lines; a consumer wanting types writes them.
 - **Reference cases are not distributed** — the diagnosis skill's worked client examples live outside this repository.

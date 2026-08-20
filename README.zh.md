@@ -48,6 +48,22 @@ bundle 自带的 `cordis.patch.yml` 会插入那一行，所以不需要你写 p
 dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 ```
 
+## 浏览器自动化
+
+`aieo-diagnosis` 和 `aieo-monitoring` 要用 Playwright 实测各 AI 搜索平台。dsh 通过 [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client) 接 MCP，工具名注册为 `mcp__<serverName>__<rawName>`——**和 Claude Code 是同一套命名**，所以 skill 正文里的 `mcp__playwright__browser_*` 只要 serverName 叫 `playwright` 就能直接解析：
+
+```yaml
+- insert:
+    - id: mcp-playwright
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: playwright
+        command: npx
+        args: ['@playwright/mcp@latest']
+```
+
+不配也能跑，只是这两个 skill 只剩技术审计和报告骨架，平台可见性实测那部分会缺。
+
 ## 包含的 skills
 
 | Skill | 用途 |
@@ -73,7 +89,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 ## 已知限制与待办
 
-- **工具名是 Claude 口径** —— skill 正文里写的是 `Read`、`Write`、`mcp__playwright__browser_*`。在 dsh 里对应的是 `bash`、`str_replace_editor`、`fs` 工具，以及 `dsh-mcp-client` 挂的 MCP。frontmatter 里的 `allowed-tools` 会被 dsh 的解析器忽略：既不报错，也不限制任何东西。
+- **frontmatter 里的 `allowed-tools` 在 dsh 下不起作用** —— 解析器只读 `name`、`description`、`whenToUse`、`metadata` 和两个 invocation 开关，其余忽略。既不报错也不限制任何东西；保留该键是为了兼容 Claude Code。正文里的 harness 工具名已改成 dsh 拼写（`read`、`glob`、`web_fetch`）；MCP 工具名需要按上面配好 server。
 - **Web 模式禁用了 host 层 provider** —— `dsh-web-app` 把 `skill-filesystem` 设为 disabled，因为本地发现由 agent preset 拥有。本 bundle 注册在全局层，preset 里的 agent 读到的是合并后的 catalog，所以照常可见；但一个把 preset 与全局注册隔离的部署就看不到它。
 - **没有构建步骤** —— 插件就是一个 `.mjs`，没有 TypeScript 源码、没有 `lib/`、没有类型声明。总共二十行；需要类型的使用者自己写。
 - **参考案例不随仓库分发** —— 诊断 skill 引用的客户实例留在本地工作目录。
