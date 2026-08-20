@@ -70,9 +70,8 @@ Without it the two skills still produce a technical audit and a report skeleton;
 
 A diagnosis report and the monitoring dashboard, both from real client runs with the brand redacted.
 
-![Monitoring dashboard](assets/screenshot-dashboard.png)
+![Monitoring dashboard](assets/screenshot-dashboard.png)  ![Dashboard on a narrow screen](assets/screenshot-dashboard-mobile.png)
 
-![Dashboard on a narrow screen](assets/screenshot-dashboard-mobile.png)
 
 ## Skills
 
@@ -86,11 +85,7 @@ A diagnosis report and the monitoring dashboard, both from real client runs with
 | `moments-content-creator` | Brand-voice-consistent SEO content production |
 | `moments-landing-page-cloner` | High-fidelity landing-page replication |
 
-Every skill here carries the `moments-` prefix, which is what keeps this set apart from same-named skills in a user's own roots.
 
-`moments-content-creator` is a derivative: it started as Alireza Rezvani's MIT-licensed `content-creator` and was iterated for AIEO delivery. The original author and license stay in its frontmatter.
-
-A Chinese AI-tell remover used to ship here and was dropped — it is a public method that belongs to nobody in particular, sourced from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing); write it into your own skill root rather than taking a copy from here.
 
 The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 
