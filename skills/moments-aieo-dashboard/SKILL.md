@@ -34,7 +34,7 @@ ls 04_monitoring/*_AIEO监控报告_*.md 2>/dev/null | sed 's|.*/||' | sed 's/_A
 Run the parser:
 
 ```bash
-python3 .claude/skills/moments-aieo-dashboard/scripts/parse_monitoring_reports.py "<brand>" "<dir>" --output /tmp/aieo_dashboard_data.json
+python3 scripts/parse_monitoring_reports.py "<brand>" "<dir>" --output /tmp/aieo_dashboard_data.json
 ```
 
 - **0 reports**: list available brands and ask user to correct.
@@ -67,7 +67,7 @@ If any expected field is empty, follow **Manual Enrichment** below before genera
 
 ### Step 4: Generate Dashboard HTML
 
-1. Read template: `.claude/skills/moments-aieo-dashboard/assets/dashboard_template.html`
+1. Read template: `assets/dashboard_template.html`
 2. Read JSON: `/tmp/aieo_dashboard_data.json`
 3. Replace `{{BRAND_NAME}}` and `{{DASHBOARD_DATA}}`
 4. Write to: `<report_dir>/dashboard_<brand>.html`
@@ -76,7 +76,7 @@ If any expected field is empty, follow **Manual Enrichment** below before genera
 Inline Python one-liner:
 ```python
 from pathlib import Path
-tpl = Path('.claude/skills/moments-aieo-dashboard/assets/dashboard_template.html').read_text(encoding='utf-8')
+tpl = Path('assets/dashboard_template.html').read_text(encoding='utf-8')
 data = Path('/tmp/aieo_dashboard_data.json').read_text(encoding='utf-8')
 out = tpl.replace('{{BRAND_NAME}}', '<brand>').replace('{{DASHBOARD_DATA}}', data)
 Path('<report_dir>/dashboard_<brand>.html').write_text(out, encoding='utf-8')
