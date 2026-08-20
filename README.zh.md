@@ -87,11 +87,6 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 | `moments-content-creator` | 品牌调性一致的 SEO 内容生产 |
 | `moments-landing-page-cloner` | 落地页高保真复刻 |
 
-这里每个 skill 都带 `moments-` 前缀，为的是和用户自己 skill 根里的同名 skill 分开。
-
-`moments-content-creator` 是衍生作品：起点是 Alireza Rezvani 以 MIT 发布的 `content-creator`，为 AIEO 交付做了迭代。原作者与许可证保留在它的 frontmatter 里。
-
-原先随包的中文 AI 痕迹清理 skill 已移除——那是不属于任何人的公开方法，出处是 [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)，请写进你自己的 skill 根，而不是从这里拷一份。
 
 四个 AIEO skill 共享同一条产物链：诊断起草的问题库，由定位修正、内容消费、监控度量。不按顺序跑不会报错，只会得到一个更弱的问题库。
 
