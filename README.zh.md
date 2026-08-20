@@ -1,3 +1,5 @@
+![Moments AIEO — 让品牌被 AI 搜索引用 / Get your brand cited by AI search](assets/moments-aieo-banner-v2.png)
+
 # dsh-moments-aieo
 
 [English](README.md) | 中文
