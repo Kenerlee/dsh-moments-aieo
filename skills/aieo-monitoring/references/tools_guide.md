@@ -48,7 +48,7 @@ Playwright MCP 允许自动化访问各 AI 平台进行监控测试。
 ### 1.3 批量测试流程
 
 ```
-1. 打开 shared/question_library.md 获取测试问题
+1. 打开 ../../shared/question_library.md 获取测试问题
 2. 依次访问各平台
 3. 对每个问题:
    a. 输入问题
@@ -179,7 +179,7 @@ AIEO 健康度 =
 ### 5.1 共享问题库位置
 
 ```
-.claude/skills/shared/question_library.md
+../../shared/question_library.md
 ```
 
 ### 5.2 问题分类

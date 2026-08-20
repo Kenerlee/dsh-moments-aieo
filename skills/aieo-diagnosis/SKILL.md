@@ -192,7 +192,7 @@ async (page) => {
 
 #### 2.3 测试问题设计
 
-> **重要**: 完整问题库请参考 `shared/question_library.md`，包含通用问题模板和行业专属问题。
+> **重要**: 完整问题库请参考 `../shared/question_library.md`，包含通用问题模板和行业专属问题。
 
 **Tier 1 核心问题（必测 15 题）**:
 
@@ -214,9 +214,9 @@ async (page) => {
 | 历史故事 | "[品牌]有多少年历史？" |
 | 服务售后 | "[品牌]在哪里买？" |
 
-**Tier 2 扩展问题**: 参见 `shared/question_library.md` 第五章
+**Tier 2 扩展问题**: 参见 `../shared/question_library.md` 第五章
 
-**Tier 3 长尾问题**: 参见 `shared/question_library.md` 第五章及行业专属模板
+**Tier 3 长尾问题**: 参见 `../shared/question_library.md` 第五章及行业专属模板
 
 #### 2.4 测试结果记录模板
 
@@ -578,7 +578,7 @@ Step 4: 汇总结果，计算可见性得分
 ### 8.3 问题库生成逻辑
 
 ```
-通用问题模板（shared/question_library.md）
+通用问题模板（../shared/question_library.md）
     ↓
 + 品牌基本信息（诊断收集）
     ↓
@@ -648,7 +648,7 @@ Step 4: 汇总结果，计算可见性得分
 
 ## Tier 3 行业专属问题（10-15题）
 
-[根据行业类型从 shared/question_library.md 选取]
+[根据行业类型从 ../shared/question_library.md 选取]
 
 ---
 
@@ -661,7 +661,7 @@ Step 4: 汇总结果，计算可见性得分
 
 ---
 
-**问题库模板参考**: shared/question_library.md
+**问题库模板参考**: ../shared/question_library.md
 ```
 
 ### 8.5 问题库输出位置
