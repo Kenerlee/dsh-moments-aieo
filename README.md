@@ -2,7 +2,7 @@
 
 English | [中文](README.zh.md)
 
-An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. The method runs in four stages — **diagnosis → positioning → content → monitoring** — chained by one question bank: diagnosis drafts it, positioning corrects it, content consumes it, monitoring measures against it. Installing this bundle gives an agent all four, plus the bank itself, as one named skill provider.
+An AIEO (AI Engine Optimization — the GEO/AEO practice of getting a brand cited by ChatGPT, DeepSeek, Doubao, Kimi, Perplexity and friends) delivery method, packaged as one DeepSeek Harness bundle. The method runs in four stages — **diagnosis → positioning → content → monitoring** — chained by one question bank: diagnosis drafts it, positioning corrects it, content consumes it, monitoring measures against it. This bundle ships the three stages that are method rather than writing — diagnosis, positioning, monitoring — plus the question bank itself, as one named skill provider. The content stage consumes the bank through whatever writing skill you already use.
 
 ![Diagnosis report](assets/screenshot-diagnosis-report.png)
 
@@ -82,12 +82,11 @@ A diagnosis report and the monitoring dashboard, both from real client runs with
 | `moments-aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
 | `moments-aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
 | `moments-aieo-dashboard` | Renders monitoring reports into an interactive HTML dashboard |
-| `moments-content-creator` | Brand-voice-consistent SEO content production |
 | `moments-landing-page-cloner` | High-fidelity landing-page replication |
 
 
 
-The four AIEO skills share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
+Diagnosis, positioning, query mining and monitoring share one artifact chain: the question bank the diagnosis drafts is what positioning corrects, content consumes, and monitoring measures against. Running them out of order is allowed and produces a weaker bank.
 
 ## Model Experience
 

@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。方法分四段——**诊断 → 定位 → 内容 → 监控**——由同一份问题库串起来：诊断起草、定位修正、内容消费、监控度量。装上这个 bundle，agent 四段全有，外加问题库本身，注册为一个独立命名的 skill provider。
+一套 AIEO（AI Engine Optimization，也就是 GEO/AEO —— 让品牌被 ChatGPT、DeepSeek、豆包、Kimi、Perplexity 这类 AI 搜索引用）的交付方法论，打包成 DeepSeek Harness 的一个 bundle。方法分四段——**诊断 → 定位 → 内容 → 监控**——由同一份问题库串起来：诊断起草、定位修正、内容消费、监控度量。本 bundle 提供其中属于方法而非写作的三段——诊断、定位、监控——以及问题库本身，注册为一个独立命名的 skill provider。内容那段消费这份问题库，由你已有的写作 skill 承接。
 
 ![诊断报告](assets/screenshot-diagnosis-report.png)
 
@@ -84,11 +84,10 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 | `moments-aieo-query-miner` | 只认白名单平台后台导出数据挖真实搜索热词，拒绝凭空编造 |
 | `moments-aieo-monitoring` | 定期监测可见性、SoV、内容质量与业务转化 |
 | `moments-aieo-dashboard` | 把监控报告渲染成交互式 HTML 面板 |
-| `moments-content-creator` | 品牌调性一致的 SEO 内容生产 |
 | `moments-landing-page-cloner` | 落地页高保真复刻 |
 
 
-四个 AIEO skill 共享同一条产物链：诊断起草的问题库，由定位修正、内容消费、监控度量。不按顺序跑不会报错，只会得到一个更弱的问题库。
+诊断、定位、热词挖掘、监控共享同一条产物链：诊断起草的问题库，由定位修正、内容消费、监控度量。不按顺序跑不会报错，只会得到一个更弱的问题库。
 
 ## Model Experience
 
