@@ -2,7 +2,16 @@
   "name": "dsh-moments-aieo",
   "version": "0.1.0",
   "description": "AIEO (GEO/AEO) diagnosis → positioning → content → monitoring skill bundle for DeepSeek Harness",
-  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "cordis-plugin", "skills", "aieo", "geo", "aeo"],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis-plugin",
+    "skills",
+    "aieo",
+    "geo",
+    "aeo"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kenerlee/dsh-moments-aieo.git"
@@ -15,7 +24,11 @@
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
-  "files": ["index.mjs", "cordis.patch.yml", "skills"],
+  "files": [
+    "index.mjs",
+    "cordis.patch.yml",
+    "skills"
+  ],
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
@@ -25,5 +38,8 @@
     "@deepseek-ai/dsh-skill": "*",
     "@deepseek-ai/dsh-skill-filesystem": "*",
     "@deepseek-ai/schemastery": "*"
+  },
+  "scripts": {
+    "test": "node tests/smoke.mjs"
   }
 }
