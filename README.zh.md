@@ -57,7 +57,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 ## 浏览器自动化
 
-`moments-aieo-diagnosis` 和 `moments-aieo-monitoring` 要用 Playwright 实测各 AI 搜索平台。dsh 通过 [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client) 接 MCP，工具名注册为 `mcp__<serverName>__<rawName>`——**和 Claude Code 是同一套命名**，所以 skill 正文里的 `mcp__playwright__browser_*` 只要 serverName 叫 `playwright` 就能直接解析：
+`moments-aieo-diagnosis` 通过 [bb-browser](https://github.com/epiral/bb-browser) 采集真实回答（需安装并在其受管浏览器里登录各 AI 平台），用仅依赖标准库的 Python 脚本生成图文客户版报告和证据压缩包；`moments-aieo-monitoring` 用 Playwright 实测各 AI 搜索平台。dsh 通过 [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client) 接 MCP，工具名注册为 `mcp__<serverName>__<rawName>`——**和 Claude Code 是同一套命名**，所以监控 skill 正文里的 `mcp__playwright__browser_*` 只要 serverName 叫 `playwright` 就能直接解析：
 
 ```yaml
 - insert:
@@ -69,7 +69,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
         args: ['@playwright/mcp@latest']
 ```
 
-不配也能跑，只是这两个 skill 只剩技术审计和报告骨架，平台可见性实测那部分会缺。
+不配浏览器工具也能跑，只是两个 skill 只剩官网审计和问题库，平台可见性实测那部分会缺。
 
 ## 截图
 
@@ -83,7 +83,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 | Skill | 用途 |
 |---|---|
-| `moments-aieo-diagnosis` | 品牌 AI 可见性诊断，产出诊断报告 + 问题库初稿 |
+| `moments-aieo-diagnosis` | 品牌 AI 可见性诊断，产出图文客户版报告（诊断快照、竞品可见度、逐题矩阵、事实准确度、来源格局、90 天路线图）+ 证据压缩包 + 问题库初稿 |
 | `moments-aieo-positioning` | 基于 AIEO 改造版 April Dunford 方法论的定位分析，迭代问题库 |
 | `moments-aieo-query-miner` | 只认白名单平台后台导出数据挖真实搜索热词，拒绝凭空编造 |
 | `moments-aieo-monitoring` | 定期监测可见性、SoV、内容质量与业务转化 |
