@@ -56,7 +56,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
 
 ## Browser automation
 
-`moments-aieo-diagnosis` and `moments-aieo-monitoring` drive real AI search platforms through Playwright. dsh reaches MCP servers through [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client), which registers their tools under `mcp__<serverName>__<rawName>` — the same server-qualified shape Claude Code uses, so the `mcp__playwright__browser_*` names in these skill bodies resolve as long as the server is named `playwright`:
+`moments-aieo-diagnosis` collects real answers through [bb-browser](https://github.com/epiral/bb-browser) (install it and log in to each AI platform in its managed browser); it renders a visual client report plus an evidence zip with stdlib-only Python scripts. `moments-aieo-monitoring` drives the platforms through Playwright. dsh reaches MCP servers through [`dsh-mcp-client`](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/mcp/mcp-client), which registers their tools under `mcp__<serverName>__<rawName>` — the same server-qualified shape Claude Code uses, so the `mcp__playwright__browser_*` names in the monitoring skill resolve as long as the server is named `playwright`:
 
 ```yaml
 - insert:
@@ -68,7 +68,7 @@ dsh --profile web --dump-config | grep -A 4 'id: moments-aieo'
         args: ['@playwright/mcp@latest']
 ```
 
-Without it the two skills still produce a technical audit and a report skeleton; the platform-visibility measurements are what go missing.
+Without the browser tooling both skills still produce a website audit and the question bank; the platform-visibility measurements are what go missing.
 
 ## Screenshots
 
@@ -81,7 +81,7 @@ A diagnosis report and the monitoring dashboard, both from real client runs with
 
 | Skill | Purpose |
 |---|---|
-| `moments-aieo-diagnosis` | Brand AI-visibility diagnosis; emits a report plus the first draft of the question bank |
+| `moments-aieo-diagnosis` | Brand AI-visibility diagnosis; emits a visual client report (snapshot, competitor visibility, question × brand matrix, fact accuracy, sources, 90-day roadmap), an evidence zip and the first draft of the question bank |
 | `moments-aieo-positioning` | Positioning analysis on an AIEO-adapted April Dunford method; iterates the question bank |
 | `moments-aieo-query-miner` | Real search-term mining from whitelisted platform exports only; refuses to invent terms |
 | `moments-aieo-monitoring` | Periodic visibility, share-of-voice, content-quality and conversion tracking |
